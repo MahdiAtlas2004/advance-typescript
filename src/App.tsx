@@ -1,12 +1,13 @@
-import Button from "./components/Button";
-import Container from "./components/Container";
+import { useEffect, useRef } from "react";
+import Input from "./components/Input";
 
 function App() {
-  return (
+  // Setting generic type for useRef hook to tell the useRef that this is a ref for an input element.
+  const input = useRef<HTMLInputElement>(null);
+
+return (
     <main>
-      {/* Setting the polyphormic component as a button we made ourslef. */}
-      {/* Now we can set all set the properties that a button can have.  */}
-      <Container as={Button}>Click me</Container>
+      <Input label="first" id="test" ref={input} />
     </main>
   );
 }
