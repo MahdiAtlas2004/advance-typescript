@@ -4,10 +4,10 @@ function App() {
   return (
     <main>
       <p>
-        <Button el="button">A button</Button>
+        <Button >A button</Button>
       </p>
       <p>
-        <Button el="anchor" href="https://google.com">
+        <Button href="https://google.com">
           A Link
         </Button>
       </p>
