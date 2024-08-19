@@ -5,7 +5,8 @@ function App() {
   return (
     <main>
       {/* Setting the polyphormic component as a button we made ourslef. */}
-      <Container as={Button} />
+      {/* Now we can set all set the properties that a button can have.  */}
+      <Container as={Button}>Click me</Container>
     </main>
   );
 }
