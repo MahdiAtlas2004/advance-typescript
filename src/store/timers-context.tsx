@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, type ReactNode } from "react";
 
 // these are the types of the data object.
 type Timer = {
@@ -22,3 +22,27 @@ type TimersContextValue = TimersState & {
 
 // This is the basic object that create a context which then let us use our data across the application.
 const TimersContext = createContext<TimersContextValue | null>(null);
+
+// This type is for components that will be wraped by TimersContextProvider function.
+type TimersContextProviderProps = {
+  children: ReactNode;
+}
+
+// With this special component function we can now wrap other components of our application that then they will be able to access these values.
+export default function TimersContextProvider({children}: TimersContextProviderProps) {
+  const ctx: TimersContextValue = {
+    timers: [],
+    isRuning: false,
+    addTimer(timerData) {
+      //...
+    },
+    startTimers() {
+      //...
+    },
+    stopTimers() {
+      //...
+    }
+  };
+  // Here Provider object needs initial value that's why we are creating ctx object and these values then will be accessible for the other components.
+  return <TimersContext.Provider value={ctx}>{children}</TimersContext.Provider>
+}
