@@ -45,48 +45,61 @@ type TimersContextProviderProps = {
   children: ReactNode;
 };
 
-type Action = {
-  type: "ADD_TIMER" | "START_TIMERS" | "STOP_TIMERS";
+type StartTimersAction = {
+  type: "START_TIMERS";
 };
 
+type StopTimersAction = {
+  type: "STOP_TIMERS";
+};
+
+type AddTimerAction = {
+  type: "ADD_TIMER";
+  payload: Timer;
+};
+
+type Action = StartTimersAction | StopTimersAction | AddTimerAction;
+
 function timersReducer(state: TimersState, action: Action): TimersState {
-  if(action.type === 'START_TIMERS') {
+  if (action.type === "START_TIMERS") {
     return {
       ...state,
-      isRuning: true
-    }
+      isRuning: true,
+    };
   }
-  if(action.type === 'STOP_TIMERS') {
+  if (action.type === "STOP_TIMERS") {
     return {
       ...state,
-      isRuning: false
-    }
+      isRuning: false,
+    };
   }
-  if(action.type === 'ADD_TIMER') {
+  if (action.type === "ADD_TIMER") {
     return {
       ...state,
       timers: [
         ...state.timers,
         {
-          name,
-          duration
-        }
-      ]
-    }
+          name: action.payload.name,
+          duration: action.payload.duration,
+        },
+      ],
+    };
   }
+
+  return state;
 }
 
 // With this special component function we can now wrap other components of our application that then they will be able to access these values.
 export default function TimersContextProvider({
   children,
 }: TimersContextProviderProps) {
-  const [TimersState, dispatch] = useReducer(timersReducer, initialState);
+  const [timersState, dispatch] = useReducer(timersReducer, initialState);
 
   const ctx: TimersContextValue = {
-    timers: [],
-    isRuning: false,
+    timers: timersState.timers,
+    isRuning: timersState.isRuning,
     addTimer(timerData) {
-      dispatch({ type: "ADD_TIMER" });
+      dispatch({ type: "ADD_TIMER", payload: timerData });
     },
     startTimers() {
       dispatch({ type: "START_TIMERS" });
