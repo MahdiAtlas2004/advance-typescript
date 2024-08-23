@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext, useReducer, type ReactNode } from "react";
 
 // these are the types of the data object.
 type Timer = {
@@ -10,6 +10,11 @@ type Timer = {
 type TimersState = {
   isRuning: boolean;
   timers: Timer[];
+};
+
+const initialState: TimersState = {
+  isRuning: true,
+  timers: [],
 };
 
 // these are the types of methods that should be managed by context.
@@ -40,21 +45,29 @@ type TimersContextProviderProps = {
   children: ReactNode;
 };
 
+type Action = {
+  type: "ADD_TIMER" | "START_TIMERS" | "STOP_TIMERS";
+};
+
+function timersReducer(state: TimersState, action: Action): TimersState {}
+
 // With this special component function we can now wrap other components of our application that then they will be able to access these values.
 export default function TimersContextProvider({
   children,
 }: TimersContextProviderProps) {
+  const [TimersState, dispatch] = useReducer(timersReducer, initialState);
+
   const ctx: TimersContextValue = {
     timers: [],
     isRuning: false,
     addTimer(timerData) {
-      //...
+      dispatch({ type: "ADD_TIMER" });
     },
     startTimers() {
-      //...
+      dispatch({ type: "START_TIMERS" });
     },
     stopTimers() {
-      //...
+      dispatch({ type: "STOP_TIMERS" });
     },
   };
   // Here Provider object needs initial value that's why we are creating ctx object and these values then will be accessible for the other components.
