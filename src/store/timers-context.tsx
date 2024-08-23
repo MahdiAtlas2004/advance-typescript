@@ -49,7 +49,32 @@ type Action = {
   type: "ADD_TIMER" | "START_TIMERS" | "STOP_TIMERS";
 };
 
-function timersReducer(state: TimersState, action: Action): TimersState {}
+function timersReducer(state: TimersState, action: Action): TimersState {
+  if(action.type === 'START_TIMERS') {
+    return {
+      ...state,
+      isRuning: true
+    }
+  }
+  if(action.type === 'STOP_TIMERS') {
+    return {
+      ...state,
+      isRuning: false
+    }
+  }
+  if(action.type === 'ADD_TIMER') {
+    return {
+      ...state,
+      timers: [
+        ...state.timers,
+        {
+          name,
+          duration
+        }
+      ]
+    }
+  }
+}
 
 // With this special component function we can now wrap other components of our application that then they will be able to access these values.
 export default function TimersContextProvider({
