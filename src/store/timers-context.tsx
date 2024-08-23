@@ -1,7 +1,7 @@
 import { createContext, useContext, useReducer, type ReactNode } from "react";
 
 // these are the types of the data object.
-type Timer = {
+export type Timer = {
   name: string;
   duration: number;
 };
