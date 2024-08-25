@@ -1,15 +1,27 @@
 import Container from "./UI/Container.tsx";
 import { type Timer as TimerProps } from "../store/timers-context.tsx";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Timer({ name, duration }: TimerProps) {
+  // the generic type tell the typescript that at first the value of useRef is null but eventually it's a number.
+  const interval = useRef<number | null>(null);
   const [remainingTime, setRemainingTime] = useState(duration * 1000);
+
+  // stoping timer when it reaches zero
+  if (remainingTime <= 0 && interval.current) {
+    clearInterval(interval.current);
+  }
 
   // Without useEffect the setInterval function will run every time the state change again and it cause an infinite loop there for we use useEffect to prevent this behavior.
   useEffect(() => {
-    setInterval(function () {
+    const timer = setInterval(function () {
       setRemainingTime((prevTime) => prevTime - 50);
     }, 50);
+    // this will store the value of interval before cleaning it.
+    interval.current = timer;
+
+    // if a useEffect going to return something it should be a function.
+    return () => clearInterval(timer);
   }, []);
 
   // converting mili second to second.
