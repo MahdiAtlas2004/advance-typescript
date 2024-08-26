@@ -21,7 +21,12 @@ export default function Timer({ name, duration }: TimerProps) {
     let timer: number;
     if (isRuning) {
       timer = setInterval(function () {
-        setRemainingTime((prevTime) => prevTime - 50);
+        setRemainingTime((prevTime) => {
+          if (prevTime <= 0) {
+            return prevTime;
+          }
+          return prevTime - 50;
+        });
       }, 50);
       // this will store the value of interval before cleaning it.
       interval.current = timer;
